@@ -28,7 +28,7 @@ fi
 # Create the output folder if it doesn't exist
 mkdir -p "$output_folder"
 
-Zip the input folder and library folder
+# Zip the input folder and library folder
 zip -r "$output_folder/$input_folder.zip" "$input_folder" "$library_folder"
 
 echo "Zip operation completed. Output available in '$output_folder/$input_folder.zip'."
