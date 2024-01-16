@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage: $0 <folder_name>"
+  echo "Usage: $0 <assignment_name>"
   exit 1
 fi
 
