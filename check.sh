@@ -20,7 +20,7 @@ if [ ! -f "$zip_file" ]; then
 fi
 
 # Create or reset the testing folder
-rm -r "$testing_folder/*"
+rm -rf "$testing_folder"
 mkdir -p "$testing_folder"
 
 # Unzip the assignment into the testing folder
