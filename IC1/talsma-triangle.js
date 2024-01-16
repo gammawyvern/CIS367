@@ -21,9 +21,12 @@ window.onload = function init() {
 
   // triangle vertices
   var vertices = [
-    vec2(1.0, 1.0),
-    vec2(1.0, 0.5),
-    vec2(-0.5, -0.5),
+    vec2(-1.0,  0.0),
+    vec2( 0.0,  1.0),
+    vec2( 1.0,  0.0),
+    vec2( 1.0, -1.0),
+    vec2(-1.0, -1.0),
+    vec2( 0.0,  0.0),
   ];
 
   // configure WebGL
@@ -49,6 +52,6 @@ window.onload = function init() {
 // Render whatever is in our gl variable
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
