@@ -50,6 +50,6 @@ function render() {
   gl.uniform1f(xLoc, x);
   gl.uniform1f(yLoc, y);
 
-  window.requestAnimationFrame(render);
+  // window.requestAnimationFrame(render);
 }
 
