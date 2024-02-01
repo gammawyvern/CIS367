@@ -1,7 +1,7 @@
 var gl;
 var points;
 
-var x, y = 0.0;
+let x = y = 0.0;
 var xLoc, yLoc;
 
 window.onload = function init() {
@@ -50,6 +50,6 @@ function render() {
   gl.uniform1f(xLoc, x);
   gl.uniform1f(yLoc, y);
 
-  // window.requestAnimationFrame(render);
+  window.requestAnimationFrame(render);
 }
 
