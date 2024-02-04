@@ -1,14 +1,14 @@
-var gl;
-var points;
+let gl;
+let points;
 
 let x = y = 0.0;
-var xLoc, yLoc;
+let xLoc, yLoc;
 
 window.onload = function init() {
 
   window.addEventListener("keydown", function(e) {
-      console.log("Key: " + e.key);
-    }, false);
+    console.log("Key: " + e.key);
+  }, false);
 
   var canvas = document.getElementById('gl-canvas');
   gl = WebGLUtils.setupWebGL(canvas);
