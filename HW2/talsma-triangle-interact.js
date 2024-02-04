@@ -4,10 +4,24 @@ let points;
 let x = y = 0.0;
 let xLoc, yLoc;
 
+let dirs = [null, null];
+let speed = 0.001;
+
 window.onload = function init() {
 
   window.addEventListener("keydown", function(e) {
-    console.log("Key: " + e.key);
+    if (e.key == "ArrowLeft") {
+      dirs[0] = false;
+    } else if (e.key == "ArrowRight") {
+      dirs[0] = true;
+    } else if (e.key == "ArrowUp") {
+      dirs[1] = true;
+    } else if (e.key == "ArrowDown") {
+      dirs[1] = false;
+    } else if (e.key == "Space") {
+      dirs[0] = null;
+      dirs[1] = null;
+    }
   }, false);
 
   var canvas = document.getElementById('gl-canvas');
@@ -44,8 +58,19 @@ function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-  x += 0.01;
-  y += 0.01;
+/*
+  if (dirs[0] === true) // move right
+    x += 0.01;
+  else if (dirs[0] === false) // move left
+    x -= 0.01;
+  if (dirs[1] === true) // move up
+    y += 0.01;
+  else if (dirs[1] === false) // move down
+    y -= 0.01
+*/
+
+  x += dirs[0] ? speed : -speed; 
+  y += dirs[1] ? speed : -speed;
 
   gl.uniform1f(xLoc, x);
   gl.uniform1f(yLoc, y);
