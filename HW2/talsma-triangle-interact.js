@@ -5,7 +5,7 @@ let x = y = 0.0;
 let xLoc, yLoc;
 
 let dirs = [null, null];
-let speed = 0.001;
+let speed = 0.005;
 
 window.onload = function init() {
 
@@ -57,17 +57,6 @@ window.onload = function init() {
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
-
-/*
-  if (dirs[0] === true) // move right
-    x += 0.01;
-  else if (dirs[0] === false) // move left
-    x -= 0.01;
-  if (dirs[1] === true) // move up
-    y += 0.01;
-  else if (dirs[1] === false) // move down
-    y -= 0.01
-*/
 
   x += dirs[0] ? speed : -speed; 
   y += dirs[1] ? speed : -speed;
