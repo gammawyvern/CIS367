@@ -1,48 +1,47 @@
 let gl;
 let points;
 
-let translation = vec2(0.0, 0.0);
-let translation_location = vec2(0.0, 0.0);
+let translation_location;
+let rotation_location;
 
 let control_speed = 0.005;
 let rotation_speed = Math.PI * control_speed;
+let move_speed = Math.PI * control_speed;
 
-let dirs = [null, null];
+let rotation_input = vec2(false, false);
+let translation_input = vec2(false, false);
 
-const Rotation = {
-  IDLE: "idle",
-  CLOCKWISE: "clockwise",
-  COUNTER_CLOCKWISE: "counter-clockwise",
-};
-
-let rotation_input = Rotation.IDLE; 
+let translation = vec2(0.0, 0.0);
+let translation_direction_offset = Math.PI / 2;
 let rotation = 0.0;
-let rotation_location = 0.0;
 
 window.onload = function init() {
 
   window.addEventListener("keydown", function(e) {
     if (e.code === "ArrowLeft") {
-      rotation_input = Rotation.COUNTER_CLOCKWISE;
+      rotation_input[0] = true; 
     } else if (e.code === "ArrowRight") {
-      rotation_input = Rotation.CLOCKWISE;
+      rotation_input[1] = true;
     } 
 
-    // if (e.code === "ArrowUp") {
-    //   dirs[1] = true;
-    // } else if (e.code === "ArrowDown") {
-    //   dirs[1] = false;
-    // } else if (e.code === "Space") {
-    //   dirs[0] = null;
-    //   dirs[1] = null;
-    // }
+    if (e.code === "ArrowDown") {
+      translation_input[0] = true;
+    } else if (e.code === "ArrowUp") {
+      translation_input[1] = true; 
+    } 
   }, false);
 
   window.addEventListener("keyup", function(e) {
-    if (e.code === "ArrowLeft" && rotation_input === Rotation.COUNTER_CLOCKWISE) {
-      rotation_input = Rotation.IDLE;
-    } else if (e.code === "ArrowRight" && rotation_input === Rotation.CLOCKWISE) {
-      rotation_input = Rotation.IDLE;
+    if (e.code === "ArrowLeft") {
+      rotation_input[0] = false; 
+    } else if (e.code === "ArrowRight") {
+      rotation_input[1] = false; 
+    }
+
+    if (e.code === "ArrowDown") {
+      translation_input[0] = false;
+    } else if (e.code === "ArrowUp") {
+      translation_input[1] = false;
     }
   }, false);
 
@@ -79,15 +78,27 @@ window.onload = function init() {
 };
 
 function logic() {
-  // translation = add(translation, vec2(control_speed, control_speed));
+  // Rotation update
+  let rotation_dir = 0;
+  if (rotation_input[0]) {
+    rotation_dir -= 1;
+  }
+  if (rotation_input[1]) {
+    rotation_dir += 1;
+  }
+  rotation += rotation_dir * rotation_speed;
 
-  console.log(rotation_input);
-
-  if (rotation_input === Rotation.CLOCKWISE) {
-    rotation += rotation_speed;
-  } else if (rotation_input === Rotation.COUNTER_CLOCKWISE) {
-    rotation -= rotation_speed;
-  } 
+  // Translation update
+  let translation_dir = 0.0;
+  if (translation_input[0]) {
+    translation_dir -= 1.0;
+  }
+  if (translation_input[1]) {
+    translation_dir += 1.0;
+  }
+  translation_x = translation_dir * move_speed * -Math.cos(rotation + translation_direction_offset); 
+  translation_y = translation_dir * move_speed * Math.sin(rotation + translation_direction_offset); 
+  translation = add(translation, vec2(translation_x, translation_y))
 }
 
 function render() {
