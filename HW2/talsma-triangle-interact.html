@@ -7,9 +7,9 @@
       attribute vec4 vPosition;
       uniform float rotation;
       uniform vec2 translation;
+      mat2 rotation_matrix = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
 
       void main() {
-        mat2 rotation_matrix = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
         vec2 rotated_vector = rotation_matrix * vPosition.xy;
         vec2 translated_vector = rotated_vector + translation;
 
