@@ -1,15 +1,21 @@
 let gl;
 let points;
-
 let translation_location;
 let rotation_location;
 
 let control_speed = 0.005;
 let rotation_speed = Math.PI * control_speed;
-let move_speed = Math.PI * control_speed;
+let move_speed = 2 * control_speed;
 
-let rotation_input = vec2(false, false);
-let translation_input = vec2(false, false);
+const rotation_input = {
+  clockwise: false,
+  counter_clockwise: false
+};
+
+const translation_input = {
+  forwards: false,
+  backwards: false
+}
 
 let translation = vec2(0.0, 0.0);
 let translation_direction_offset = Math.PI / 2;
@@ -19,29 +25,29 @@ window.onload = function init() {
 
   window.addEventListener("keydown", function(e) {
     if (e.code === "ArrowLeft") {
-      rotation_input[0] = true; 
+      rotation_input.counter_clockwise = true; 
     } else if (e.code === "ArrowRight") {
-      rotation_input[1] = true;
+      rotation_input.clockwise = true;
     } 
 
     if (e.code === "ArrowDown") {
-      translation_input[0] = true;
+      translation_input.backwards = true;
     } else if (e.code === "ArrowUp") {
-      translation_input[1] = true; 
+      translation_input.forwards = true; 
     } 
   }, false);
 
   window.addEventListener("keyup", function(e) {
     if (e.code === "ArrowLeft") {
-      rotation_input[0] = false; 
+      rotation_input.counter_clockwise = false; 
     } else if (e.code === "ArrowRight") {
-      rotation_input[1] = false; 
+      rotation_input.clockwise = false; 
     }
 
     if (e.code === "ArrowDown") {
-      translation_input[0] = false;
+      translation_input.backwards = false;
     } else if (e.code === "ArrowUp") {
-      translation_input[1] = false;
+      translation_input.forwards = false;
     }
   }, false);
 
@@ -80,22 +86,15 @@ window.onload = function init() {
 function logic() {
   // Rotation update
   let rotation_dir = 0;
-  if (rotation_input[0]) {
-    rotation_dir -= 1;
-  }
-  if (rotation_input[1]) {
-    rotation_dir += 1;
-  }
+  rotation_dir += rotation_input.clockwise ? 1 : 0;
+  rotation_dir -= rotation_input.counter_clockwise ? 1 : 0;
   rotation += rotation_dir * rotation_speed;
 
   // Translation update
   let translation_dir = 0.0;
-  if (translation_input[0]) {
-    translation_dir -= 1.0;
-  }
-  if (translation_input[1]) {
-    translation_dir += 1.0;
-  }
+  translation_dir += translation_input.forwards ? 1 : 0;
+  translation_dir -= translation_input.backwards ? 1 : 0;
+
   translation_x = translation_dir * move_speed * -Math.cos(rotation + translation_direction_offset); 
   translation_y = translation_dir * move_speed * Math.sin(rotation + translation_direction_offset); 
   translation = add(translation, vec2(translation_x, translation_y))
@@ -104,7 +103,6 @@ function logic() {
 function render() {
   logic();
 
-  // Pass values to shader
   gl.uniform2fv(translation_location, translation);
   gl.uniform1f(rotation_location, rotation);
 
