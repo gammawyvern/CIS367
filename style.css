@@ -10,6 +10,12 @@
     height: 100vh;
   }
 
+  canvas {
+    display: block;
+    margin: auto;
+    border: 5px solid #202020;
+  }
+
   h1 {
     color: #c9c9c9;
     text-align: center;
