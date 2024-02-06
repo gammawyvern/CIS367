@@ -71,7 +71,7 @@ window.onload = function init() {
   if (!gl) { alert('WebGL unavailable'); }
 
   gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0.5, 0.5, 0.5, 1.0);
+  // gl.clearColor(0.5, 0.5, 0.5, 0.0);
 
   var program = initShaders(gl, 'vertex-shader', 'fragment-shader');
   gl.useProgram(program);
