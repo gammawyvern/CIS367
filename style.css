@@ -40,7 +40,29 @@
     transition: color 0.3s;
   }
 
+  a {
+    background:
+      linear-gradient(
+        to right,
+        rgba(0, 255, 132, 1),
+        rgba(32, 32, 32, 1),
+        rgba(32, 32, 32, 1),
+        rgba(0, 255, 247, 1)
+      ),
+      linear-gradient(
+        to right,
+        rgba(32, 32, 32, 1),
+        rgba(32, 32, 32, 1),
+        rgba(0, 255, 132, 1)
+    );
+    background-size: 100% 3px, 0 3px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms;
+  }
+
   a:hover {
+    background-size: 0 3px, 100% 3px;
     color: #00ff84;
   }
 
