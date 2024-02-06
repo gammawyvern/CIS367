@@ -1,11 +1,13 @@
 let gl;
 let points;
+let triangle_size = 0.1;
+
 let translation_location;
 let rotation_location;
 
-let control_speed = 0.005;
-let rotation_speed = Math.PI * control_speed;
-let move_speed = 2 * control_speed;
+let last_time = 0.0;
+let rotation_speed = 2 * Math.PI;
+let move_speed = 2;
 
 const rotation_input = {
   clockwise: false,
@@ -22,9 +24,9 @@ let translation_direction_offset = Math.PI / 2;
 let rotation = 0.0;
 
 let vertices = [
-  scale(0.25, vec2(0, 1)),
-  scale(0.25, vec2(Math.sqrt(3)/2, -1/2)),
-  scale(0.25, vec2(-Math.sqrt(3)/2, -1/2)),
+  scale(triangle_size, vec2(0, 1)),
+  scale(triangle_size, vec2(Math.sqrt(3)/2, -1/2)),
+  scale(triangle_size, vec2(-Math.sqrt(3)/2, -1/2)),
 ];
 
 let colors = [
@@ -96,25 +98,35 @@ window.onload = function init() {
   render();
 };
 
-function logic() {
+function logic(dt) {
+  let frame_rotation = dt * rotation_speed;
+  let frame_translation = dt * move_speed;
+
   // Rotation update
   let rotation_dir = 0;
   rotation_dir += rotation_input.clockwise ? 1 : 0;
   rotation_dir -= rotation_input.counter_clockwise ? 1 : 0;
-  rotation += rotation_dir * rotation_speed;
+  rotation += rotation_dir * frame_rotation;
 
   // Translation update
   let translation_dir = 0.0;
   translation_dir += translation_input.forwards ? 1 : 0;
   translation_dir -= translation_input.backwards ? 1 : 0;
 
-  translation_x = translation_dir * move_speed * -Math.cos(rotation + translation_direction_offset); 
-  translation_y = translation_dir * move_speed * Math.sin(rotation + translation_direction_offset); 
+  translation_x = translation_dir * frame_translation * -Math.cos(rotation + translation_direction_offset); 
+  translation_y = translation_dir * frame_translation * Math.sin(rotation + translation_direction_offset); 
   translation = add(translation, vec2(translation_x, translation_y))
 }
 
-function render() {
-  logic();
+function render(current_time) {
+  // Avoid weird problems
+  if (isNaN(current_time)) {
+    window.requestAnimationFrame(render);
+    return;
+  }
+
+  let delta_time_ms = (current_time - last_time) / 1000;
+  logic(delta_time_ms);
 
   gl.uniform2fv(translation_location, translation);
   gl.uniform1f(rotation_location, rotation);
@@ -122,6 +134,7 @@ function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 
+  last_time = current_time;
   window.requestAnimationFrame(render);
 }
 
