@@ -21,6 +21,18 @@ let translation = vec2(0.0, 0.0);
 let translation_direction_offset = Math.PI / 2;
 let rotation = 0.0;
 
+let vertices = [
+  scale(0.25, vec2(0, 1)),
+  scale(0.25, vec2(Math.sqrt(3)/2, -1/2)),
+  scale(0.25, vec2(-Math.sqrt(3)/2, -1/2)),
+];
+
+let colors = [
+  vec3(1.0, 0.0, 0.0),
+  vec3(0.0, 0.0, 1.0),
+  vec3(0.0, 0.0, 1.0)
+];
+
 window.onload = function init() {
 
   window.addEventListener("keydown", function(e) {
@@ -56,14 +68,6 @@ window.onload = function init() {
 
   if (!gl) { alert('WebGL unavailable'); }
 
-  var vertices = [
-    scale(0.25, vec2(0, 1)),
-    scale(0.25, vec2(Math.sqrt(3)/2, -1/2)),
-    scale(0.25, vec2(-Math.sqrt(3)/2, -1/2)),
-  ];
-
-  console.log(vertices);
-
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(0.5, 0.5, 0.5, 1.0);
 
@@ -80,6 +84,15 @@ window.onload = function init() {
   var vPosition = gl.getAttribLocation(program, 'vPosition');
   gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vPosition);
+
+  var c_buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, c_buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
+
+  var v_color = gl.getAttribLocation(program, "v_color");
+  gl.vertexAttribPointer(v_color, 3, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(v_color);
+
   render();
 };
 

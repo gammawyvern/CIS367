@@ -9,19 +9,25 @@
       uniform vec2 translation;
       mat2 rotation_matrix = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
 
+      attribute vec4 v_color;
+      varying vec4 f_color;
+
       void main() {
         vec2 rotated_vector = rotation_matrix * vPosition.xy;
         vec2 translated_vector = rotated_vector + translation;
 
         gl_Position = vec4(translated_vector, 0.0, 1.0);
+
+        f_color = v_color;
       }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
       precision mediump float;
+      varying vec4 f_color;
 
       void main() {
-        gl_FragColor = vec4(0.0, 0.6, 0.95, 1.0);
+        gl_FragColor = f_color;
       }
     </script>
 
