@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
 
-    <script id="vertex-shader" type="x-shader/x-vertex">
-      attribute vec4 vPosition;
-      uniform float rotation;
-      uniform vec2 translation;
+<head>
+  <meta charset="utf-8">
+  <title>Controllable Triangle</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
 
-      void main() {
-        mat2 rotation_matrix = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
-        vec2 rotated_vector = rotation_matrix * vPosition.xy;
-        vec2 translated_vector = rotated_vector + translation;
+  <script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec4 vPosition;
+    uniform float rotation;
+    uniform vec2 translation;
 
-        gl_Position = vec4(translated_vector, 0.0, 1.0);
-      }
-    </script>
+    void main() {
+      mat2 rotation_matrix = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
+      vec2 rotated_vector = rotation_matrix * vPosition.xy;
+      vec2 translated_vector = rotated_vector + translation;
+
+      gl_Position = vec4(translated_vector, 0.0, 1.0);
+    }
+  </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
       precision mediump float;
