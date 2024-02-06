@@ -28,9 +28,9 @@ let vertices = [
 ];
 
 let colors = [
-  vec3(1.0, 0.0, 0.0),
+  vec3(0.0, 1.0, 0.0),
   vec3(0.0, 0.0, 1.0),
-  vec3(0.0, 0.0, 1.0)
+  vec3(0.0, 0.0, 1.0),
 ];
 
 window.onload = function init() {
