@@ -30,9 +30,9 @@ let vertices = [
 ];
 
 let colors = [
-  vec3(0.0, 1.0, 0.0),
-  vec3(0.0, 0.0, 1.0),
-  vec3(0.0, 0.0, 1.0),
+  vec3(1.0, 0.25, 0.0),
+  vec3(0.4, 0.0, 0.0),
+  vec3(0.4, 0.0, 0.0),
 ];
 
 window.onload = function init() {
@@ -116,6 +116,13 @@ function logic(dt) {
   translation_x = translation_dir * frame_translation * -Math.cos(rotation + translation_direction_offset); 
   translation_y = translation_dir * frame_translation * Math.sin(rotation + translation_direction_offset); 
   translation = add(translation, vec2(translation_x, translation_y))
+
+  // Clever wrap around math, 
+  // even if it's god awful to look at
+  translation = vec2(
+    (((((translation[0] + 1) % 2) + 2) % 2) - 1), 
+    (((((translation[1] + 1) % 2) + 2) % 2) - 1), 
+  );
 }
 
 function render(current_time) {
