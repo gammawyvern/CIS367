@@ -117,8 +117,7 @@ function logic(dt) {
   translation_y = translation_dir * frame_translation * Math.sin(rotation + translation_direction_offset); 
   translation = add(translation, vec2(translation_x, translation_y))
 
-  // Clever wrap around math, 
-  // even if it's god awful to look at
+  // How the fuck does this actually work???
   translation = vec2(
     (((((translation[0] + 1) % 2) + 2) % 2) - 1), 
     (((((translation[1] + 1) % 2) + 2) % 2) - 1), 
