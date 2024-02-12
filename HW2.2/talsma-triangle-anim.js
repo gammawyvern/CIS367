@@ -5,7 +5,6 @@ let anim_speed = 0.02;
 let triangle_scale = 0.25;
 
 let translation_loc;
-// Using third for rotation
 let translation = vec2(0.0, 0.0);
 let velocity = vec2(0.8, 0.6);
 

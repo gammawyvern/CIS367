@@ -4,49 +4,65 @@ var canvas;
 var gl;
 
 var points = [];
+let p1 = vec2( 0,  1);
+let p2 = vec2( 1, -1);
+let p3 = vec2(-1, -1);
 
 var numTimesToSubdivide = 0;
 
 function init() {
-    canvas = document.getElementById( "gl-canvas" );
+  canvas = document.getElementById( "gl-canvas" );
 
-    gl = WebGLUtils.setupWebGL( canvas );
-    if ( !gl ) { alert( "WebGL isn't available" ); }
+  gl = WebGLUtils.setupWebGL( canvas );
+  if ( !gl ) { alert( "WebGL isn't available" ); }
 
-    var vertices = [
-        vec2( -1, -1 ),
-        vec2(  0,  1 ),
-        vec2(  1, -1 )
-    ];
+  canvas.addEventListener("mouseup", (event) => {
+    let rect = gl.canvas.getBoundingClientRect();
+    let new_x = (event.clientX - rect.left) / canvas.width * 2 - 1;
+    let new_y = (event.clientY - rect.top) / canvas.height * -2 + 1;
 
-    divideTriangle(
-      vertices[0],
-      vertices[1],
-      vertices[2],
-      numTimesToSubdivide
-    );
+    let vertex_id = document.querySelector('input[name="vertex"]:checked').value;
+    if (vertex_id == 0) {
+      p1 = vec2(new_x, new_y);
+    } else if (vertex_id == 1) {
+      p2 = vec2(new_x, new_y);
+    } else {
+      p3 = vec2(new_x, new_y);
+    }
 
-    gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
+    console.log(new_x, new_y);
+  });
 
-    var program = initShaders( gl, "vertex-shader", "fragment-shader" );
-    gl.useProgram( program );
+  var vertices = [
+    p1, p2, p3
+  ];
 
-    var bufferId = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
-    gl.bufferData( gl.ARRAY_BUFFER, 50000, gl.STATIC_DRAW );
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
+  divideTriangle(
+    vertices[0],
+    vertices[1],
+    vertices[2],
+    numTimesToSubdivide
+  );
 
-    var vPosition = gl.getAttribLocation( program, "vPosition" );
-    gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
+  gl.viewport( 0, 0, canvas.width, canvas.height );
 
-        document.getElementById("slider").onchange = function(event) {
-        numTimesToSubdivide = parseInt(event.target.value);
-    };
+  var program = initShaders( gl, "vertex-shader", "fragment-shader" );
+  gl.useProgram( program );
 
+  var bufferId = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
+  gl.bufferData( gl.ARRAY_BUFFER, 50000, gl.STATIC_DRAW );
+  gl.bufferSubData(gl.ARRAY_BUFFER, 0, flatten(points));
 
-    render();
+  var vPosition = gl.getAttribLocation( program, "vPosition" );
+  gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+
+  document.getElementById("slider").onchange = (event) => {
+    numTimesToSubdivide = parseInt(event.target.value);
+  };
+
+  render();
 };
 
 function triangle(a, b, c) {

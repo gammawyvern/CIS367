@@ -3,7 +3,8 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-  <title>2D Sierpinski Gasket</title>
+  <title>Mutabel Sierpinski Gasket</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
 
   <script id="vertex-shader" type="x-shader/x-vertex">
     attribute vec4 vPosition;
@@ -30,6 +31,13 @@
 <body>
   <div>
     recursive steps  0<input id="slider" type="range" min= "0" max="6" step="1" value="0"/> 6 
+  </div>
+
+  <div>
+    Vertex:
+    <input type="radio" name="vertex" value="0" checked> 0
+    <input type="radio" name="vertex" value="1"> 1
+    <input type="radio" name="vertex" value="2"> 2
   </div>
 
   <canvas id="gl-canvas" width="512" height="512">
