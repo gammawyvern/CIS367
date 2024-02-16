@@ -72,6 +72,9 @@ function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-  window.requestAnimationFrame(render);
+  // Cap run-rate to 50 fps
+  setTimeout(function() {
+    window.requestAnimationFrame(render);
+  }, 20);
 }
 
