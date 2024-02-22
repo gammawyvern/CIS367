@@ -9,13 +9,15 @@
 </head>
 
 <body>
-  <input type="file" id="audioFileInput" accept="audio/*">
-
-  <audio id="audioPlayer" controls>
-    Your browser does not support the audio tag.
-  </audio>
-
   <canvas id="visualizer" width="800" height="400"></canvas> 
+
+  <div id="audio-container">
+    <audio id="audio-controller" controls>
+      Your browser does not support the audio tag.
+    </audio>
+
+    <input type="file" id="audioFileInput" accept="audio/*">
+  </div>
 
   <script type="text/javascript" src="./audio.js"></script>
 </body>

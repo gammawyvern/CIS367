@@ -45,7 +45,6 @@ function visualizeFrequencyData(analyser) {
       barHeight = dataArray[i];
 
       ctx.fillStyle = 'rgb(0, 153, 242)';
-      (0.0, 0.6, 0.95, 1.0);
       ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
 
       x += barWidth + 1;
