@@ -3,8 +3,8 @@ function setupAudioVisualizer() {
   const analyser = audioContext.createAnalyser();
   analyser.fftSize = 256;
 
-  const audioPlayer = document.getElementById('audioPlayer');
-  const fileInput = document.getElementById('audioFileInput');
+  const audioPlayer = document.getElementById('audio-controller');
+  const fileInput = document.getElementById('audio-file');
   const source = audioContext.createMediaElementSource(audioPlayer);
   source.connect(analyser);
   analyser.connect(audioContext.destination);
@@ -59,6 +59,4 @@ function visualizeFrequencyData(analyser) {
 window.onload = function() {
   setupAudioVisualizer();
 };
-
-
 
