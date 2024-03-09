@@ -3,16 +3,21 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rotating Square</title>
-  <style>
-    body { margin: 0; overflow: hidden; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style> body { margin: 0; overflow: hidden; } </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@<version>/build/three.module.js"
+      }
+    }
+  </script>
 </head>
 
 <body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r154/three.min.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 
 </html>
