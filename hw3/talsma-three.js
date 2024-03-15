@@ -23,32 +23,44 @@ floorMesh.position.set(0, -1, -3);
 floorMesh.rotation.set(-Math.PI/2, 0, 0);
 scene.add(floorMesh);
 
-let boxWidth = 1;
+let boxWidth = 0.9;
 let boxHeight = 2;
-let boxDepth = 1;
+let boxDepth = 0.2;
 let boxGeometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 let boxMaterial = new THREE.MeshStandardMaterial({color: 0x00ffff});
-let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-boxMesh.position.set(-2, 1, -5);
-scene.add(boxMesh);
+for (let i = 0; i < 14; i++) {
+  let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+  boxMesh.position.set(i - 7, 1, -5);
+  boxMesh.receiveShadow = true;
+  boxMesh.castShadow = true;
+  scene.add(boxMesh);
+  boxes.push(boxMesh);
+}
+// let boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+// boxMesh.position.set(-2, 1, -5);
+// scene.add(boxMesh);
 
 // Camera 
-var ambient = new THREE.AmbientLight(0x888888);
+let ambient = new THREE.AmbientLight(0x888888);
 scene.add(ambient);
-var lightIntensity = 10;
-var pointLight = new THREE.PointLight(0xffffff, lightIntensity);
+let lightIntensity = 10;
+let pointLight = new THREE.PointLight(0xffffff, lightIntensity);
 pointLight.position.set(2, 4, -2);
 scene.add(pointLight);
 renderer.shadowMap.enabled = true;
 floorMesh.receiveShadow = true;
-boxMesh.receiveShadow = true;
-boxMesh.castShadow = true;
+// boxMesh.receiveShadow = true;
+// boxMesh.castShadow = true;
 pointLight.castShadow = true;
 
 // Run animation loop
 function animate() {
-requestAnimationFrame(animate);
-renderer.render(scene, camera);
+  for(let i = 0; i < boxes.length; i++) {
+    boxes[i].rotateX(Math.PI/(100+i));
+  }
+
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
 }
 
 animate();
