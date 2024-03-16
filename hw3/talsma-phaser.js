@@ -27,17 +27,27 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 }
 
-function update() {
-  if (cursors.left.isDown) {
-    player.x -= 4;
-  } else if (cursors.right.isDown) {
-    player.x += 4;
+function move() {
+  player.x -= cursors.left.isDown ? 4 : 0;
+  player.x += cursors.right.isDown ? 4 : 0;
+
+  player.y -= cursors.up.isDown ? 4 : 0;
+  player.y += cursors.down.isDown ? 4 : 0;
+
+  if (player.x < player.width) {
+    player.x = player.width;
+  } else if (player.x > (config.width - player.width)) {
+    player.x = config.width - player.width;
   }
 
-  if (cursors.up.isDown) {
-    player.y -= 4;
-  } else if (cursors.down.isDown) {
-    player.y += 4;
+  if (player.y < player.height) {
+    player.y = player.height;
+  } else if (player.y > (config.height - player.height)) {
+    player.y = config.height - player.height;
   }
+}
+
+function update() {
+  move();
 }
 
