@@ -30,9 +30,9 @@ const block = new THREE.Mesh(geometry, material);
 scene.add(block);
 
 const controls = new FlyControls(camera, renderer.domElement);
-controls.movementSpeed = 10;
+controls.movementSpeed = 5;
 controls.domElement = renderer.domElement;
-controls.rollSpeed = Math.PI / 10;
+controls.rollSpeed = Math.PI / 3;
 controls.autoForward = false;
 controls.dragToLook = true;
 
