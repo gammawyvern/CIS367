@@ -13,21 +13,23 @@ const texture_loader = new THREE.TextureLoader();
 const dirt_texture = texture_loader.load("./assets/dirt.png");
 
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); 
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const material = new THREE.MeshStandardMaterial({
+  map: dirt_texture,
+  roughness: 0.2
+}); 
+const block = new THREE.Mesh(geometry, material);
+scene.add(block);
 
 let angle = 0;
 
 function animate() {
-  requestAnimationFrame( animate );
-
-  // cube.rotation.x = angle;
-  // cube.rotation.y = angle;
+  requestAnimationFrame(animate);
 
   angle += 0.01;
+  // block.rotation.x = angle;
+  // block.rotation.y = angle;
 
-  renderer.render( scene, camera );
+  renderer.render(scene, camera);
 }
 
 animate();
