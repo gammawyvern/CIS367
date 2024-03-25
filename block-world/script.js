@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import * as THREE from "three";
+import { FlyControls } from "addons/fly-controls";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -12,7 +13,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xbbbbbb);
 document.body.appendChild(renderer.domElement);
 
-const ambient = new THREE.AmbientLight(0x888888);
+const ambient = new THREE.AmbientLight(0xffffff);
 scene.add(ambient);
 
 const texture_loader = new THREE.TextureLoader(); 
@@ -28,15 +29,16 @@ const material = new THREE.MeshStandardMaterial({
 const block = new THREE.Mesh(geometry, material);
 scene.add(block);
 
-let angle = 0;
+const controls = new FlyControls(camera, renderer.domElement);
+controls.movementSpeed = 10;
+controls.domElement = renderer.domElement;
+controls.rollSpeed = Math.PI / 10;
+controls.autoForward = false;
+controls.dragToLook = true;
 
 function animate() {
   requestAnimationFrame(animate);
-
-  angle += 0.01;
-  // block.rotation.x = angle;
-  // block.rotation.y = angle;
-
+  controls.update(0.01);
   renderer.render(scene, camera);
 }
 
