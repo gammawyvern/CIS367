@@ -47,16 +47,16 @@ function create_world() {
   scene.add(floor);
 }
 
-let prev_time = performance.now();
-function animate() {
-  let current_time = performance.now();
-  let delta = (current_time - prev_time) / 1000; 
-  prev_time = current_time;
-  console.log(delta);
+const fps = 60;
+const frame_time = 1 / fps;
 
-  requestAnimationFrame(animate);
-  controls.update(delta);
+function animate() {
+  controls.update(0.01);
   renderer.render(scene, camera);
+  setTimeout(
+    () => {requestAnimationFrame(animate)},
+    frame_time
+  );
 }
 
 create_world();
