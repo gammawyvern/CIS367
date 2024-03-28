@@ -7,26 +7,34 @@ import { FlyControls } from "addons/fly-controls";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.y = 2;
+camera.position.y = 3;
+camera.position.z = 5;
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000);
 document.body.appendChild(renderer.domElement);
 
-const ambient = new THREE.AmbientLight(0x333333);
+const ambient = new THREE.AmbientLight(0x202020);
 scene.add(ambient);
 
-const player_light = new THREE.SpotLight(0xffffff, 1);
+const player_light = new THREE.SpotLight(0xffffff, 5);
 const player_light_target = new THREE.Object3D();
 player_light.target = player_light_target;
-player_light.angle = Math.PI / 4;
+player_light.angle = Math.PI / 5;
 scene.add(player_light, player_light_target);
 
 const texture_loader = new THREE.TextureLoader(); 
-const dirt_texture = texture_loader.load("./assets/dirt.png");
-dirt_texture.magFilter = THREE.NearestFilter; 
-dirt_texture.minFilter = THREE.NearestFilter;
+function load_texture(file_path) {
+  let texture = texture_loader.load(file_path);
+  texture.magFilter = THREE.NearestFilter; 
+  texture.minFilter = THREE.NearestFilter;
+  return texture;
+}
+
+const dirt_texture = load_texture("./assets/dirt_block.png");
+const stone_texture = load_texture("./assets/stone_block.png");
+const grass_texture = load_texture("./assets/grass_block.png");
 
 const controls = new FlyControls(camera, renderer.domElement);
 controls.domElement = renderer.domElement;
@@ -42,23 +50,38 @@ controls.dragToLook = true;
  **************************************/
 
 function create_world() {
-  let geometry = new THREE.BoxGeometry(1, 1, 1);
-  let material = new THREE.MeshStandardMaterial({
-    map: dirt_texture,
-    roughness: 0.2
-  }); 
+  let cube_geometry = new THREE.BoxGeometry(1, 1, 1);
+  let dirt_material = new THREE.MeshStandardMaterial({map: dirt_texture}); 
+  let stone_material = new THREE.MeshStandardMaterial({map: stone_texture}); 
+  let grass_material = new THREE.MeshStandardMaterial({map: grass_texture}); 
 
-  let floor = new THREE.InstancedMesh(geometry, material, 10*10); 
-
-  const matrix = new THREE.Matrix4();
-  for (let x = 0; x < 10; x++) {
-    for (let z = 0; z < 10; z++) {
-      matrix.makeTranslation(x - 5, 0, z - 5); 
-      floor.setMatrixAt((x * 10) + z, matrix); 
+  for (let x = -10; x <= 10; x++) {
+    for (let z = -10; z <=10; z++) {
+      let cube_mesh = new THREE.Mesh(cube_geometry, stone_material);
+      cube_mesh.position.set(x, -1, z);
+      scene.add(cube_mesh);
     }
   }
 
-  scene.add(floor);
+  for (let x = -10; x <= 10; x++) {
+    for (let z = -10; z <=10; z++) {
+      if ((Math.abs(x) + Math.abs(z)) >= 3) {
+        let cube_mesh = new THREE.Mesh(cube_geometry, dirt_material);
+        cube_mesh.position.set(x, 0, z);
+        scene.add(cube_mesh);
+      }
+    }
+  }
+
+  for (let x = -10; x <= 10; x++) {
+    for (let z = -10; z <=10; z++) {
+      if ((Math.abs(x) + Math.abs(z)) >= 10) {
+        let cube_mesh = new THREE.Mesh(cube_geometry, grass_material);
+        cube_mesh.position.set(x, 1, z);
+        scene.add(cube_mesh);
+      }
+    }
+  }
 }
 
 function update_player_light() {
@@ -69,6 +92,7 @@ function update_player_light() {
 
   camera.getWorldDirection(target_pos);
   target_pos.multiplyScalar(target_dist);
+  target_pos.add(camera.position);
   player_light_target.position.copy(target_pos);
 }
 
