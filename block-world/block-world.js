@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { FlyControls } from "addons/fly-controls";
+import { FirstPersonControls } from "addons/first-person-controls";
 
 /***************************************
  * Setting up THREE.js objects
