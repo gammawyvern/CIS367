@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { FlyControls } from "addons/fly-controls";
 import { FirstPersonControls } from "addons/first-person-controls";
 
 /***************************************
@@ -37,14 +36,13 @@ const dirt_texture = load_texture("./assets/dirt_block.png");
 const stone_texture = load_texture("./assets/stone_block.png");
 const grass_texture = load_texture("./assets/grass_block.png");
 
-const controls = new FlyControls(camera, renderer.domElement);
-controls.domElement = renderer.domElement;
+const controls = new FirstPersonControls(camera, renderer.domElement);
 controls.movementSpeed = 5;
-controls.rollEnabled = false;
-controls.rollSpeed = Math.PI / 3;
-controls.autoForward = false;
-// TODO would like to just remove mouse controls totally 
-controls.dragToLook = true; 
+controls.lookSpeed = 0.1;
+// controls.constrainVertical = true;
+// controls.verticalMin = Math.PI * (2/3);
+// controls.verticalMax = Math.PI * (1/2);
+controls.lookVertical = false;
 
 /***************************************
  * Functions to update while running
@@ -122,3 +120,4 @@ function animate() {
 
 create_world();
 animate();
+
