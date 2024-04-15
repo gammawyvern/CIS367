@@ -3,11 +3,12 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x6e5342);
 document.body.appendChild(renderer.domElement);
 
 // Load and display the 3D model
 const loader = new THREE.GLTFLoader();
-loader.load('./duck.glb', (gltf) => {
+loader.load("./pickaxe.glb", (gltf) => {
   gltf.scene.position.y -= 0.5
   scene.add(gltf.scene);
 });
