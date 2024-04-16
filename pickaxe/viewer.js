@@ -12,13 +12,13 @@ let pickaxe_model;
 let on_pickaxe = true;
 
 const loader = new THREE.GLTFLoader();
-loader.load("./pickaxe.glb", (gltf) => {
+loader.load("./models/pickaxe.glb", (gltf) => {
   gltf.scene.position.y -= 0.5;
   pickaxe_model = gltf.scene;
   scene.add(pickaxe_model);
 });
 
-loader.load("./sword.glb", (gltf) => {
+loader.load("./models/sword.glb", (gltf) => {
   sword_model = gltf.scene;
 });
 

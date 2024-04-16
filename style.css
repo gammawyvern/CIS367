@@ -67,6 +67,21 @@ a:hover {
   color: #00ff84;
 }
 
+/* For Images */
+
+.image-container {
+    display: flex; 
+    justify-content: center; 
+    max-height: 90vh;
+}
+
+.image-container img {
+    max-width: 100%; 
+    max-height: 100%; 
+    height: auto; 
+    margin: 10px; 
+}
+
 /* Testing over here */
 
 input[type="radio"]:checked + label::before {
